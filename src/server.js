@@ -14,6 +14,38 @@ try {
   console.error("Erro ao rodar migrate:", err.message);
 }
 
+import prisma from "./prisma.js";
+import bcrypt from "bcryptjs";
+
+async function createAdminIfNotExists() {
+  const email = "gugab621@gmail.com";
+
+  const admin = await prisma.user.findUnique({
+    where: { email }
+  });
+
+  if (!admin) {
+    const hash = await bcrypt.hash("Lendas.1203", 10);
+
+    await prisma.user.create({
+      data: {
+        name: "Gustavo Gabriel",
+        email,
+        password: hash,
+        rg: "478",
+        role: "ADMIN",
+        division: "ADMINISTRACAO",
+        approved: true
+      }
+    });
+
+    console.log("✅ ADMIN criado automaticamente");
+  }
+}
+
+createAdminIfNotExists();
+
+
 const app = express();
 app.use(cors());
 app.use(express.json());
