@@ -5,14 +5,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-/**
- * Roda as migrations automaticamente
- */
 try {
-  execSync("npx prisma migrate deploy", { stdio: "inherit" });
+  execSync("npx prisma db push", { stdio: "inherit" });
 } catch (err) {
-  console.error("Erro ao rodar migrate:", err.message);
+  console.error("Erro ao sincronizar banco:", err.message);
 }
+
 
 import prisma from "./prisma.js";
 import bcrypt from "bcryptjs";
