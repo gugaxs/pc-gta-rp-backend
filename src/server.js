@@ -1,3 +1,11 @@
+import { execSync } from "child_process";
+
+try {
+  execSync("npx prisma migrate deploy", { stdio: "inherit" });
+} catch (err) {
+  console.error("Erro ao rodar migrate:", err.message);
+}
+
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
